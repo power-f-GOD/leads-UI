@@ -1,0 +1,14 @@
+@use 'constants';
+
+[class*='anim__'] {
+  will-change: transform, opacity;
+}
+
+@include anim__('fadeIn', '', '');
+@include anim__('fadeIn', 'Up', 'Tiny');
+@include anim__('fadeIn', 'Up', 'Big');
+
+.anim__fadeIn {
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+}

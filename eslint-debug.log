@@ -1,0 +1,35 @@
+
+/Users/macbook/code.ly/contacts/src/components/AppSnackbar.tsx
+  51:37  warning  No magic number: 6000  no-magic-numbers
+  65:37  warning  No magic number: 768   no-magic-numbers
+
+/Users/macbook/code.ly/contacts/src/components/leads/Card.tsx
+  27:38  warning  No magic number: -1  no-magic-numbers
+  27:47  warning  No magic number: -1  no-magic-numbers
+
+/Users/macbook/code.ly/contacts/src/layouts/__emotion.tsx
+  14:13  error    'React' is not defined                                               no-undef
+  17:11  warning  'cache' is already declared in the upper scope on line 16 column 10  no-shadow
+
+/Users/macbook/code.ly/contacts/src/types/leads.ts
+  73:20  warning  No magic number: -1  no-magic-numbers
+
+/Users/macbook/code.ly/contacts/src/utils/__tests__/http.test.ts
+   5:1   error  'describe' is not defined  no-undef
+   6:3   error  'describe' is not defined  no-undef
+   7:5   error  'it' is not defined        no-undef
+   8:19  error  'jest' is not defined      no-undef
+  10:13  error  'expect' is not defined    no-undef
+  13:13  error  'expect' is not defined    no-undef
+
+/Users/macbook/code.ly/contacts/src/utils/is.ts
+  25:14  warning  '_key' is assigned a value but never used  no-unused-vars
+
+/Users/macbook/code.ly/contacts/src/utils/misc.ts
+  13:51  warning  No magic number: -1  no-magic-numbers
+
+/Users/macbook/code.ly/contacts/src/utils/theme.ts
+  17:11  warning  'primary' is already declared in the upper scope on line 12 column 7  no-shadow
+
+✖ 16 problems (7 errors, 9 warnings)
+

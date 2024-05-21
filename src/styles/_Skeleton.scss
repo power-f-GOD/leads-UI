@@ -1,0 +1,48 @@
+@use 'constants';
+
+.Skeleton {
+  min-height: 0.5em;
+  min-width: 1.25em;
+  background-color: #ececec;
+  // z-index: 1;
+  transition: 0.5s;
+  animation: fadeIn 0.3s;
+
+  &.white {
+    background-color: rgba(255, 255, 255, 0.25);
+
+    &::before {
+      background: linear-gradient(
+        to left,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+      );
+    }
+  }
+
+  &.erred,
+  &.has-loaded {
+    &::before {
+      animation: unset;
+    }
+  }
+
+  &::before {
+    @include before-or-after(
+      $bg: linear-gradient(to left, transparent, #ddd, transparent),
+      $zi: 0
+    );
+    border-radius: inherit;
+    animation: animateSkeleton 0.75s infinite;
+  }
+}
+
+@keyframes animateSkeleton {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(110%);
+  }
+}

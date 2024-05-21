@@ -1,0 +1,152 @@
+@mixin debugger($color: red) {
+  &,
+  * {
+    border: 0.065rem solid $color;
+  }
+}
+
+$timing-func_mode: 1s cubic-bezier(0.175, 0.985, 0.1, 1) both;
+
+/// Sidebar: The "or's" comparing the default params values here are not necessary. They are just for you to know valid values that can be passed in. Obviously, the first ones [values] win.
+@mixin anim__(
+  $mode: 'fadeIn' or 'fadeOut' or 'fadeScaleIn' or 'fadeScaleOut' or
+    'fadeInScaleIn' or 'fadeInScaleOut' or 'fadeOutScaleIn' or 'fadeOutScaleOut',
+  $direction: 'Right' or 'Left' or 'Up' or 'Down' or '',
+  $magnitude: 'Tiny' or 'Small' or 'Big' or ''
+) {
+  $isIn: $mode == 'fadeIn' or $mode == 'In' or $mode == 'fadeScaleIn' or $mode
+    == 'fadeInScaleIn' or $mode == 'fadeInScaleOut';
+  $isScaleOut: $mode == 'fadeInScaleOut' or $mode == 'fadeScaleOut' or $mode ==
+    'fadeOutScaleOut';
+  $isFade: $mode == 'fadeIn' or $mode == 'fadeOut' or $mode == 'fadeScaleIn' or
+    $mode == 'fadeScaleOut' or $mode == 'fadeInScaleIn' or $mode ==
+    'fadeInScaleOut' or $mode == 'fadeOutScaleIn' or $mode == 'fadeOutScaleOut';
+  $isScale: $mode == 'fadeScaleIn' or $mode == 'fadeScaleOut' or $mode ==
+    'fadeInScaleIn' or $mode == 'fadeInScaleOut' or $mode == 'fadeOutScaleIn' or
+    $mode == 'fadeOutScaleOut';
+  $dir: $direction;
+  $isX: $dir == 'Right' or $direction == 'Left';
+  $isTiny: $magnitude == 'Tiny';
+  $isSmall: $magnitude == 'Small';
+  $isBig: $magnitude == 'Big';
+  $magVal: if($isTiny, 12.5%, if($isSmall, 25%, 100%));
+  $scale: if(
+    $isTiny,
+    1 - (0.125 / 1),
+    if($isSmall, 1 - (0.25 / 1), 1 - (1 / 1))
+  );
+  $scaleVal: if($isScaleOut, 1 + $scale, $scale);
+
+  .anim__#{$mode}#{$dir}#{$magnitude} {
+    animation: anim__#{$mode}#{$dir}#{$magnitude} $timing-func_mode;
+
+    @if $isScale {
+      animation-timing-function: ease;
+      animation-duration: 0.5s;
+    } @else if not $isFade {
+      animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+      animation-duration: 0.4s;
+    }
+  }
+
+  @keyframes anim__#{$mode}#{$dir}#{$magnitude} {
+    from {
+      @if ($isFade) {
+        opacity: if($isIn, 0, 1);
+      }
+
+      @if $isScale {
+        transform: scale(if($isIn, $scaleVal, 1))
+          translateY(if($dir == '', 0, if($dir == 'Up', $magVal, -#{$magVal})));
+        // if($isIn, if($isScaleOut, 2, 0), if($isScaleOut, 1, 1))
+      } @else {
+        @if $dir != '' {
+          @if $isIn {
+            @if $isX {
+              $isLeft: $dir == 'Left';
+
+              transform: translateX(if($isLeft, $magVal, -#{$magVal}));
+            } @else {
+              $isUp: $dir == 'Up';
+
+              transform: translateY(if($isUp, $magVal, -#{$magVal}));
+            }
+          } @else {
+            @if $isX {
+              transform: translateX(0);
+            } @else {
+              transform: translateY(0);
+            }
+          }
+        }
+      }
+    }
+
+    to {
+      @if $isFade {
+        opacity: if($isIn, 1, 0);
+      }
+
+      @if $isScale {
+        transform: scale(if($isIn, 1, $scaleVal))
+          translateY(
+            if(
+              $dir == '',
+              0,
+              if($isIn, 0, if($dir == 'Up', -$magVal, #{$magVal}))
+            )
+          );
+      } @else {
+        @if $dir != '' {
+          @if $isIn {
+            @if $isX {
+              transform: translateX(0);
+            } @else {
+              transform: translateY(0);
+            }
+          } @else {
+            @if $isX {
+              $isLeft: $dir == 'Left';
+
+              transform: translateX(if($isLeft, -$magVal, #{$magVal}));
+            } @else {
+              $isUp: $dir == 'Up';
+
+              transform: translateY(if($isUp, -$magVal, #{$magVal}));
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin before-or-after(
+  $bg: grey,
+  $w: 100%,
+  $h: 100%,
+  $br: inherit,
+  $tr: 0.3s,
+  $t: 0,
+  $l: 0,
+  $r: 0,
+  $b: 0,
+  $o: inherit,
+  $zi: -1,
+  $bs: none
+) {
+  position: absolute;
+  content: ' ';
+  width: $w;
+  height: $h;
+  top: $t;
+  left: $l;
+  right: $r;
+  bottom: $b;
+  z-index: $zi;
+  background: $bg;
+  border-radius: $br;
+  box-shadow: $bs;
+  opacity: $o;
+  transition: $tr;
+}
