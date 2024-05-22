@@ -6,13 +6,13 @@ import type { FC } from 'react';
 
 import { ButtonMenu } from 'src/components/shared/ButtonMenu';
 import { Skeleton } from 'src/components/shared/Skeleton';
+import { Spinner } from 'src/components/shared/Spinner';
 import { Stack } from 'src/components/shared/Stack';
 import { SVGIcon } from 'src/components/shared/SVGIcon';
 import { useTypedSelector } from 'src/hooks/useTypedSelector';
 import { deleteLead } from 'src/services/leads';
 import type { APILeadProps } from 'src/types';
 
-import { Spinner } from '../shared/Spinner';
 import { TextPair } from './TextPair';
 
 const _Card: FC<
@@ -99,7 +99,9 @@ const _Card: FC<
                 disabled={disable}>
                 <SVGIcon
                   name={`thumbs-${i === 0 ? 'up' : 'down'}`}
-                  className={`text-transparent ${className || 'fill-black/20'}`}
+                  className={`text-transparent ${
+                    className || 'fill-black/20 dark:fill-white/30'
+                  }`}
                   size="0.875rem"
                 />
               </IconButton>

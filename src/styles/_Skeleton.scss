@@ -1,9 +1,13 @@
 @use 'constants';
+:root {
+  --skeleton-bg: #ececec;
+  --skeleton-before-bg: #ddd;
+}
 
 .Skeleton {
   min-height: 0.5em;
   min-width: 1.25em;
-  background-color: #ececec;
+  background-color: var(--skeleton-bg);
   // z-index: 1;
   transition: 0.5s;
   animation: fadeIn 0.3s;
@@ -31,7 +35,13 @@
 
   &::before {
     @include before-or-after(
-      $bg: linear-gradient(to left, transparent, #ddd, transparent),
+      $bg:
+        linear-gradient(
+          to left,
+          transparent,
+          var(--skeleton-before-bg),
+          transparent
+        ),
       $zi: 0
     );
     border-radius: inherit;
@@ -45,5 +55,12 @@
   }
   to {
     transform: translateX(110%);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --skeleton-bg: rgba(255, 255, 255, 0.05);
+    --skeleton-before-bg: rgba(255, 255, 255, 0.15);
   }
 }

@@ -69,7 +69,11 @@ const _AppSnackbar = () => {
       <Alert
         onClose={handleOnClose}
         severity={severity}
-        variant={variant ?? 'standard'}
+        variant={
+          window.matchMedia('(prefers-color-scheme: dark)')
+            ? 'filled'
+            : variant ?? 'standard'
+        }
         className="shadow-xl rounded-xl max-w-md">
         {title && (
           <AlertTitle className="text-capitalize mb-1">
