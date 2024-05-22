@@ -40,10 +40,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <html lang="en">
-      <body className={`${inter.className} max-w-5xl mx-auto`}>
+      <body
+        className={`${inter.className} max-w-5xl mx-auto dark:bg-black/85 dark:text-white/90`}>
         <Stack
           as="header"
-          className="Root z-30 p-5 py-3 my-5 flex-row items-center justify-between gap-2 bg-white/80 backdrop-blur-sm border-b border-0 border-solid border-gray-200 anim__fadeIn md:py-5 lg:py-10 lg:mb-10">
+          className="Root z-30 p-5 py-3 my-5 flex-row items-center justify-between gap-2 bg-white/80 backdrop-blur-sm border-b border-0 border-solid border-gray-200 anim__fadeIn dark:border-white/5 dark:bg-transparent md:py-5 lg:py-10 lg:mb-10">
           <Stack className="flex-row items-center">
             <Text as="h1" className="text-2xl inline md:text-3xl">
               Leads
