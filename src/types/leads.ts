@@ -5,6 +5,10 @@ export type LeadsActionPayload = FetchProps<
   { page: number; count: number }
 >;
 
+export type LeadActionPayload = FetchProps<
+  (Partial<Omit<APILeadProps, '_id'>> & { _id: string }) | null
+>;
+
 export type APILeadsResponse = {
   total_results: number;
   leads: APILeadProps[];

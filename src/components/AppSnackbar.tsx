@@ -70,7 +70,7 @@ const _AppSnackbar = () => {
         onClose={handleOnClose}
         severity={severity}
         variant={variant ?? 'standard'}
-        className="shadow-lg max-w-lg">
+        className="shadow-xl rounded-xl max-w-md">
         {title && (
           <AlertTitle className="text-capitalize mb-1">
             {typeof title === 'boolean' ? `${severity}!` : title}

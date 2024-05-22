@@ -10,14 +10,13 @@ export const resolveState = <
   initialState: State,
   action: Action
 ) => {
-  const { extra, data } = action.payload;
+  const { extra } = action.payload;
 
   return action.type.includes('reset')
     ? initialState
     : {
         ...state,
         ...action.payload,
-        data: data || state.data,
         extra: {
           ...state.extra,
           ...extra

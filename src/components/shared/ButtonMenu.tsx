@@ -127,7 +127,7 @@ const _ButtonMenu: FC<{
         onClose={handleClose}
         sx={{
           '& .MuiPaper-root': {
-            marginLeft: '1.25rem',
+            marginLeft: '1.125rem',
             marginTop: '-0.75rem',
             borderRadius: '0.75rem',
             padding: '0.5rem',

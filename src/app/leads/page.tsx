@@ -17,7 +17,7 @@ const Leads = () => {
           return (
             <Card
               {...props}
-              key={i}
+              key={props._id}
               index={i}
               loading={status !== 'fulfilled'}
             />

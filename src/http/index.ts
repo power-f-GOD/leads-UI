@@ -72,16 +72,11 @@ export class Http {
     ResData,
     ReqData = unknown,
     ActionCreator extends HttpMethodActionCreator = HttpMethodActionCreator
-  >(
-    url: string,
-    options?: HttpMethodOptions<ActionCreator, ResData, ReqData>
-  ): Promise<null> {
-    await this.__request<ResData, ActionCreator, ReqData>(url, {
+  >(url: string, options?: HttpMethodOptions<ActionCreator, ResData, ReqData>) {
+    return await this.__request<ResData, ActionCreator, ReqData>(url, {
       ...options,
       method: 'DELETE'
     });
-
-    return null;
   }
 
   private async __request<
@@ -131,7 +126,7 @@ export class Http {
         {
           error,
           statusCode: res.status,
-          data: res.data,
+          ...(res.data ? { data: res.data } : {}),
           message:
             error || typeof successMessage !== 'string'
               ? message
@@ -148,6 +143,7 @@ export class Http {
       if (successMessage && !payload.error) {
         dispatch(
           snackbar({
+            open: true,
             message: payload.message,
             severity: 'success',
             position: 'top'
