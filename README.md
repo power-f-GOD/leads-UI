@@ -1,6 +1,6 @@
 # Leads UI
 
-UI for Leads (API) built with [Next.js 13](https://nextjs.org/).
+UI for Leads (API) built with [Next.js 14](https://nextjs.org/).
 
 ## Installation
 

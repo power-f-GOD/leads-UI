@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  experimental: {
-    appDir: true
-  },
   env: {
     MODE: process.env.MODE,
     API_KEY: process.env.API_KEY

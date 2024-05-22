@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @mixin debugger($color: red) {
   &,
   * {
@@ -32,8 +34,8 @@ $timing-func_mode: 1s cubic-bezier(0.175, 0.985, 0.1, 1) both;
   $magVal: if($isTiny, 12.5%, if($isSmall, 25%, 100%));
   $scale: if(
     $isTiny,
-    1 - (0.125 / 1),
-    if($isSmall, 1 - (0.25 / 1), 1 - (1 / 1))
+    1 - math.div(0.125, 1),
+    if($isSmall, 1 - math.div(0.25, 1), 1 - math.div(1, 1))
   );
   $scaleVal: if($isScaleOut, 1 + $scale, $scale);
 
