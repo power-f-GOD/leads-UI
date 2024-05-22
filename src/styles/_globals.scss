@@ -4,6 +4,7 @@ body {
   width: 100%;
   margin: 0;
   position: relative;
+  overflow: auto;
 }
 
 body * {
@@ -12,6 +13,10 @@ body * {
 
 * {
   box-sizing: border-box;
+}
+
+a {
+  @apply transition hover:scale-110 focus:scale-110;
 }
 
 h1,
@@ -23,6 +28,12 @@ h6 {
   margin: 0;
 }
 
+svg {
+  path:not([fill]) {
+    stroke: currentColor;
+  }
+}
+
 .h-1m {
-  height: 1em;
+  height: calc(1em + 0.125rem);
 }

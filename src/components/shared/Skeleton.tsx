@@ -55,9 +55,9 @@ const _Skeleton: FC<SkeletonProps> = ({
           <Stack
             key={i}
             as="span"
-            className={`Skeleton ${className || ''} ${variant || ''} ${
-              erred ? 'erred' : ''
-            }`
+            className={`Skeleton relative rounded-md overflow-hidden ${
+              className || ''
+            } ${variant || ''} ${erred ? 'erred' : ''}`
               .replace(/\s+/g, ' ')
               .trim()}
             style={style}

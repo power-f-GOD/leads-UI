@@ -6,17 +6,42 @@ import { View } from './View';
 
 const _Stack = forwardRef<HTMLElement, StackProps>(
   (
-    { children, component, style, className, ...restProps },
+    {
+      children,
+      component,
+      style,
+      horizontal,
+      vertical,
+      center,
+      centerX,
+      centerY,
+      className,
+      ...restProps
+    },
     ref
   ): JSX.Element => {
     const Component = component || View;
+    const isVertical =
+      (!className?.includes('flex-row') || vertical) && !horizontal;
 
     return (
       <Component
         {...restProps}
         ref={ref}
         className={`Stack flex${
-          !className?.includes('flex-row') ? ' flex-col' : ''
+          isVertical ? ' flex-col' : horizontal ? ' flex-row' : ''
+        } ${
+          center
+            ? 'items-center justify-center'
+            : centerX
+            ? isVertical
+              ? 'items-center'
+              : 'justify-center'
+            : centerY
+            ? isVertical
+              ? 'justify-center'
+              : 'items-center'
+            : ''
         } ${className || ''}`}
         style={useMemo(() => style, [style])}>
         {children}

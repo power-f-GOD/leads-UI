@@ -1,7 +1,3 @@
-import type { Socket } from 'socket.io-client';
-
-export type SocketProps = Socket | null;
-
 export interface SnackbarProps {
   open?: boolean;
   message?: string;

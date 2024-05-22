@@ -1,7 +1,18 @@
 import { http } from 'src/http';
 import { leads } from 'src/store';
-import type { APILeadProps } from 'src/types';
+import type { APILeadsResponse } from 'src/types';
 
 export const fetchLeads = async () => {
-  await http.get<APILeadProps[]>(`/leads`, { actor: leads });
+  await new Promise((resolve) => {
+    setTimeout(resolve, 2000);
+  });
+  await http.get<APILeadsResponse>(`/leads`, {
+    actor: leads,
+    middleware(payload) {
+      payload.extra.__isLastPage =
+        payload.data.leads.length < payload.extra.__count!;
+
+      return payload;
+    }
+  });
 };

@@ -12,3 +12,20 @@
   animation-duration: 0.5s;
   animation-timing-function: ease;
 }
+
+.anim__thumbsUp {
+  animation: thumbs 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.25);
+}
+
+@keyframes thumbs {
+  0% {
+    transform: scale(1) rotateZ(0deg);
+  }
+  30%,
+  70% {
+    transform: scale(3) rotateZ(360deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(360deg);
+  }
+}

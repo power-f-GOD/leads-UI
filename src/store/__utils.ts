@@ -3,8 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { FetchProps } from 'src/types';
 
 export const resolveState = <
-  State extends FetchProps<any[]>,
-  Action extends PayloadAction<Partial<FetchProps<any[]>>>
+  State extends FetchProps<any>,
+  Action extends PayloadAction<Partial<FetchProps<any>>>
 >(
   state: State,
   initialState: State,

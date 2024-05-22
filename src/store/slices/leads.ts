@@ -9,8 +9,8 @@ import { resolveState } from '../__utils';
 
 const initialState: LeadsActionPayload = {
   ...httpStatusPropsInit,
-  data: [],
-  extra: { count: 9, page: 1, total_results: 0 }
+  data: { leads: Array(9).fill({}), total_results: 0 },
+  extra: { count: 9, page: 1 }
 };
 
 export const leadsSlice = createSlice({

@@ -1,14 +1,14 @@
-import type { FetchProps, HttpNormalizedResponse } from './shared';
+import type { FetchProps } from './shared';
 
 export type LeadsActionPayload = FetchProps<
-  APILeadProps[],
-  { total_results: number; page: number; count: number }
+  APILeadsResponse,
+  { page: number; count: number }
 >;
 
-export type APILeadsResponse = HttpNormalizedResponse<{
+export type APILeadsResponse = {
   total_results: number;
   leads: APILeadProps[];
-}>;
+};
 
 export interface APILeadProps {
   _id: string;

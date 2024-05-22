@@ -15,7 +15,12 @@ export interface FetchProps<
   Extra extends Record<string, any> = Record<string, any>
 > extends Omit<HttpNormalizedResponse<Data>, 'data'> {
   data: Data;
-  extra?: Extra;
+  extra: Extra &
+    Partial<{
+      __listUpdateSentinel: string | number;
+      __count: number;
+      __isLastPage: boolean;
+    }>;
 }
 
 export interface HttpNormalizedResponse<Data> extends HttpStatusProps {
@@ -39,7 +44,13 @@ export type SVGIconProps = {
   size?: string | number;
 } & SVGAttributes<HTMLElement>;
 
-export type SVGIconName = 'thumbs-up';
+export type SVGIconName =
+  | 'thumbs-up'
+  | 'contact'
+  | 'thumbs-down'
+  | 'delete'
+  | 'ellipsis'
+  | 'linkedin';
 
 export interface SkeletonProps {
   type?: 'circle' | 'box';
@@ -78,7 +89,14 @@ export type StackProps = Partial<{
   className: string;
   component: ViewProps['component'];
   children: ViewProps['children'];
-  ref?: MutableRefObject<HTMLElement | null>;
+  /* Direction */
+  horizontal: boolean;
+  /* Direction - Default */
+  vertical: boolean;
+  center: boolean;
+  centerX: boolean;
+  centerY: boolean;
+  ref: MutableRefObject<HTMLElement | null>;
 }> &
   Pick<LabelHTMLAttributes<any>, 'htmlFor'> &
   HTMLAttributes<HTMLElement> &

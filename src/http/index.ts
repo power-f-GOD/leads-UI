@@ -102,6 +102,7 @@ export class Http {
       successMessage,
       preventPayloadDispatch,
       middleware,
+      dataMiddleware,
       actor,
       ...restOptions
     } = options || {};
@@ -110,39 +111,36 @@ export class Http {
     try {
       if (actor) dispatch(actor({ status: 'pending', err: false }));
 
-      const { data: resData }: AxiosResponse<HttpNormalizedResponse<ResData>> =
-        await axios(
-          this.returnRequestConfig(
-            method || 'GET',
-            external ? url : `${API_BASE_URL}${url}`,
-            external ? false : requiresAuth,
-            data,
-            restOptions
-          )
-        );
-      const message = this.getResponseMessage(resData.message);
+      const res: AxiosResponse<ResData> = await axios(
+        this.returnRequestConfig(
+          method || 'GET',
+          external ? url : `${API_BASE_URL}${url}`,
+          external ? false : requiresAuth,
+          data,
+          restOptions
+        )
+      );
+      const message = this.getResponseMessage(res.statusText); // resData.message);
+      const error = res.status >= 400;
 
-      if (resData.error) {
-        throw new Error(message, { cause: resData.statusCode });
+      if (error) {
+        throw new Error(message, { cause: res.status });
       }
 
       payload = this.normalizeResponse(
         {
-          ...(external
-            ? {
-                error: resData.error,
-                statusCode: resData.statusCode,
-                data: resData as unknown as ResData
-              }
-            : resData),
+          error,
+          statusCode: res.status,
+          data: res.data,
           message:
-            resData.error || typeof successMessage !== 'string'
+            error || typeof successMessage !== 'string'
               ? message
               : successMessage
         },
         {
           count,
-          middleware
+          middleware,
+          dataMiddleware
         }
       );
       if (actor && preventPayloadDispatch !== true) dispatch(actor(payload));
@@ -169,27 +167,24 @@ export class Http {
     response: HttpNormalizedResponse<Data>,
     options?: {
       count?: number | null;
-      middleware?: (data: Data) => Data;
+      middleware?: (_response: FetchProps<Data>) => FetchProps<Data>;
+      dataMiddleware?: (data: Data) => Data;
     }
   ) => {
     const BAD_REQUEST = 400;
     const { data, message, error, statusCode } = response;
-    const { count, middleware } = options || {};
+    const { count, dataMiddleware, middleware } = options || {};
     const err = !!error || (!!statusCode && statusCode >= BAD_REQUEST);
-
-    return {
+    const finalResponse = {
       status: 'fulfilled',
       err,
-      ...(data ? { data: middleware ? middleware(data) : data } : {}),
-      message:
-        (!count
-          ? message
-          : !err && data && (Object.keys(data)?.length || 0) < Math.round(count)
-          ? "That's all. (It's the END)."
-          : message) || '',
-      extra: { listUpdateSentinel: Math.random() },
+      ...(data ? { data: dataMiddleware ? dataMiddleware(data) : data } : {}),
+      message,
+      extra: { __listUpdateSentinel: Math.random(), __count: count },
       statusCode
-    } as FetchProps<Data, any>;
+    } as FetchProps<Data>;
+
+    return middleware ? middleware(finalResponse) : finalResponse;
   };
 
   logError<
@@ -300,7 +295,8 @@ export interface HttpMethodOptions<
   /** Useful if you want to handle resultant payload (dispatch) yourself (probably with some helper/util) without it being done automatically. */
   preventPayloadDispatch?: boolean;
   actor?: ActionCreator;
-  middleware?: (data: ResData) => ResData;
+  middleware?: (data: FetchProps<ResData>) => FetchProps<ResData>;
+  dataMiddleware?: (data: ResData) => ResData;
 }
 
 export type HttpMethodActionCreator = (
