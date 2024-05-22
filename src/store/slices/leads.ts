@@ -15,7 +15,7 @@ const initialLeadsState: LeadsActionPayload = {
       .map((d, i) => ({ ...d, _id: `${i}` })),
     total_results: 0
   },
-  extra: { count: 9, page: 1 }
+  extra: { limit: 9, page: 1 }
 };
 
 const initialLeadState: LeadActionPayload = {
@@ -28,8 +28,16 @@ export const leadsSlice = createSlice({
   initialState: initialLeadsState,
   name: 'leads',
   reducers: {
-    leads: (state, action: PayloadAction<Partial<LeadsActionPayload>>) =>
-      resolveState(state, initialLeadsState, action)
+    leads: (
+      state,
+      action: PayloadAction<
+        Partial<
+          Omit<LeadsActionPayload, 'extra'> & {
+            extra: Partial<LeadsActionPayload['extra']>;
+          }
+        >
+      >
+    ) => resolveState(state, initialLeadsState, action)
   }
 });
 

@@ -28,12 +28,7 @@ export interface FetchProps<
   Extra extends Record<string, any> = Record<string, any>
 > extends Omit<HttpNormalizedResponse<Data>, 'data'> {
   data: Data;
-  extra: Extra &
-    Partial<{
-      __listUpdateSentinel: string | number;
-      __count: number;
-      __isLastPage: boolean;
-    }>;
+  extra: Extra & Partial<{ __listUpdateSentinel: string | number }>;
 }
 
 export interface HttpNormalizedResponse<Data> extends HttpStatusProps {

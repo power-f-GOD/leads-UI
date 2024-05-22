@@ -77,7 +77,7 @@ const _Card: FC<
             }`}
             disabled={disable}
             onClick={onContacted}>
-            <SVGIcon name="contact" className="h-3.5 w-3.5" />
+            <SVGIcon name="contact" size="0.875rem" />
           </IconButton>
 
           <Stack horizontal centerY className="gap-1">
@@ -180,7 +180,7 @@ const _Card: FC<
 
       <Stack
         horizontal
-        className="p-3.5 py-2 gap-5 justify-between items-end w-full bg-black/[0.035] sm:p-4 sm:py-2.5">
+        className="p-3.5 py-2 gap-5 justify-between items-end w-full bg-black/[0.035] dark:bg-white/[0.035] sm:p-4 sm:py-2.5">
         <TextPair
           secondary="Date"
           primary={lead_date}

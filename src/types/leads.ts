@@ -2,7 +2,7 @@ import type { FetchProps } from './shared';
 
 export type LeadsActionPayload = FetchProps<
   APILeadsResponse,
-  { page: number; count: number }
+  { page: number; limit: number }
 >;
 
 export type LeadActionPayload = FetchProps<

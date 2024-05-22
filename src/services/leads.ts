@@ -2,16 +2,25 @@ import { http } from 'src/http';
 import { dispatch, lead, leads } from 'src/store';
 import type { APILeadsResponse } from 'src/types';
 
-export const fetchLeads = async () => {
-  await http.get<APILeadsResponse>(`/leads`, {
-    actor: leads,
-    middleware(payload) {
-      payload.extra.__isLastPage =
-        payload.data.leads.length < payload.extra.__count!;
+export const fetchLeads = async (query?: { page: number }) => {
+  await http
+    .get<APILeadsResponse>(
+      `/leads${query?.page ? `?page=${query.page}` : ''}`,
+      {
+        actor: leads,
+        middleware(payload) {
+          payload.extra.__isLastPage =
+            payload.data.leads.length < payload.extra.__count!;
 
-      return payload;
-    }
-  });
+          return payload;
+        }
+      }
+    )
+    .then(({ error }) => {
+      if (!error && query?.page) {
+        dispatch(leads({ extra: { page: query.page } }));
+      }
+    });
 };
 
 // export const giveLeadThumbs = async () => {
