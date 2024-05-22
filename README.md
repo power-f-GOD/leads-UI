@@ -31,10 +31,18 @@ The following environment variables must be set in a `.env.local` file:
 
 ## Usage
 
-1. Start the development server:
+1. Start the development/production server:
+
+- `development` - Development mode
 
 ```zsh
 pm dev
+```
+
+- `production` - Production mode (recommended for \[app\] preview)
+
+```zsh
+pm start
 ```
 
 `Sidebar:` You can set an alias for `pnpm` in your `.zshrc` (on Mac) or `.bashrc` file by including this line `alias pm=pnpm` therein.

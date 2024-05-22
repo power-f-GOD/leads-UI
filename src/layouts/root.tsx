@@ -34,7 +34,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     );
 
     if (tailwindStylesEtAl) {
-      tailwindStylesEtAl.parentNode?.appendChild(tailwindStylesEtAl);
+      // tailwindStylesEtAl.parentNode?.appendChild(tailwindStylesEtAl);
     }
   }, []);
 

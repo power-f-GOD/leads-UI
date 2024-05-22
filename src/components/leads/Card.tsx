@@ -15,11 +15,14 @@ import type { APILeadProps } from 'src/types';
 
 import { TextPair } from './TextPair';
 
+let hasOnceLoaded = false;
+
 const _Card: FC<
   Partial<APILeadProps> & {
     index: number;
     erred?: boolean;
     loading?: boolean;
+    page: number;
   }
 > = ({
   _id,
@@ -29,6 +32,7 @@ const _Card: FC<
   city,
   lead_date,
   index,
+  page,
   loading,
   profile_url,
   __sentiment
@@ -60,11 +64,18 @@ const _Card: FC<
     setContacted((prev) => !prev);
   }, []);
 
+  if (isReadId && !hasOnceLoaded) setTimeout(() => (hasOnceLoaded = true));
+  if (status) hasOnceLoaded = !isDeleting;
+
   return (
     <Stack
       as="li"
-      className={`relative transition m-0 rounded-2xl border border-solid overflow-clip bg-white/5 border-black/10 ${
-        isDeleted ? 'anim__onDeleteLead' : isReadId ? '' : 'anim__fadeInUpTiny'
+      className={`relative transition m-0 rounded-2xl border border-solid overflow-clip border-black/10 dark:border-white/10 ${
+        isDeleted
+          ? 'anim__onDeleteLead'
+          : !isReadId || hasOnceLoaded
+          ? 'anim__fadeInUpTiny'
+          : ''
       } ${disable ? 'cursor-not-allowed' : ''}`}
       style={{ animationDelay: `${0.1 * index}s` }}>
       <Stack className="p-3.5 pt-2 gap-1.5 sm:p-4 sm:pt-2.5">
@@ -131,7 +142,7 @@ const _Card: FC<
                     );
 
                     if (canDelete) {
-                      deleteLead(_id!).then((d) => {
+                      deleteLead(_id!, page).then((d) => {
                         if (!d.error) setIsDeleted(true);
                       });
                     }
@@ -165,6 +176,7 @@ const _Card: FC<
           <TextPair
             secondary="Net Worth"
             primary={overall_bucket}
+            classNames={{ primary: 'truncate', secondary: 'truncate' }}
             className="w-4/12"
             loading={loading}
           />
@@ -183,7 +195,7 @@ const _Card: FC<
         className="p-3.5 py-2 gap-5 justify-between items-end w-full bg-black/[0.035] dark:bg-white/[0.035] sm:p-4 sm:py-2.5">
         <TextPair
           secondary="Date"
-          primary={lead_date}
+          primary={lead_date && new Date(lead_date).toDateString().slice(4)}
           loading={loading}
           className="w-40"
         />

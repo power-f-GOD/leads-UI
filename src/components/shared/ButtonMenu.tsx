@@ -134,6 +134,7 @@ const _ButtonMenu: FC<{
             boxShadow: '0 0.25rem 0.75rem 0 rgba(0, 0, 0, 0.1)'
           }
         }}
+        classes={{ paper: 'backdrop-blur-sm dark:bg-black/50' }}
         MenuListProps={useMemo(
           () => ({
             'aria-labelledby': 'button-menu',
@@ -144,7 +145,8 @@ const _ButtonMenu: FC<{
               '.MuiMenuItem-root': {
                 fontSize: '0.75rem',
                 padding: '0.25rem 0.5rem',
-                borderRadius: '0.5rem'
+                borderRadius: '0.5rem',
+                minHeight: 'unset'
               }
             }
           }),

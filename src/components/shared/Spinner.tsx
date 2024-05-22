@@ -18,6 +18,7 @@ const _Spinner: FC<
       <CircularProgress
         variant="determinate"
         className="text-black/10"
+        classes={{ circle: 'dark:stroke-white/10' }}
         size={40}
         thickness={4}
         {...props}

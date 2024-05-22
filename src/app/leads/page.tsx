@@ -6,6 +6,7 @@ import { Fragment } from 'react';
 import type { ButtonProps } from '@mui/material';
 
 import { Card } from 'src/components/leads';
+import { Spinner } from 'src/components/shared/Spinner';
 import { Stack } from 'src/components/shared/Stack';
 import { Text } from 'src/components/shared/Text';
 import { useService } from 'src/hooks/useService';
@@ -15,9 +16,9 @@ const Leads = () => {
   const { data, status, extra } = useService(fetchLeads, { path: 'leads' });
   const pagination: Array<ButtonProps | null> = [
     { value: 'First' },
-    { value: 'Prev' },
+    { value: '< Prev' },
     null,
-    { value: 'Next' },
+    { value: 'Next >' },
     { value: 'Last' }
   ];
   const { page, limit } = extra;
@@ -34,6 +35,7 @@ const Leads = () => {
               {...props}
               key={props._id}
               index={i}
+              page={page}
               loading={status !== 'fulfilled'}
             />
           );
@@ -42,6 +44,7 @@ const Leads = () => {
 
       <Stack className="sticky bottom-0 p-5 py-3 mt-5 bg-white/80 backdrop-blur-sm dark:bg-transparent">
         <Stack horizontal centerY className="gap-1.5 justify-end">
+          {status === 'pending' && <Spinner size="1em" />}
           {pagination.map((props, i) => (
             <Fragment key={i}>
               {props ? (
@@ -52,14 +55,19 @@ const Leads = () => {
                   disabled={status !== 'fulfilled'}
                   onClick={() => {
                     fetchLeads({
-                      page:
-                        props.value === 'First'
-                          ? 1
-                          : props.value === 'Prev'
-                          ? page - 1
-                          : props.value === 'Next'
-                          ? page + 1
-                          : nPages
+                      page: Math.max(
+                        Math.min(
+                          props.value === 'First'
+                            ? 1
+                            : props.value === '< Prev'
+                            ? page - 1
+                            : props.value === 'Next >'
+                            ? page + 1
+                            : nPages,
+                          nPages
+                        ),
+                        0
+                      )
                     });
                   }}>
                   {props.value}
