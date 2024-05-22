@@ -37,3 +37,10 @@ svg {
 .h-1m {
   height: calc(1em + 0.125rem);
 }
+
+.debugger {
+  *,
+  & {
+    border: 1px solid red;
+  }
+}

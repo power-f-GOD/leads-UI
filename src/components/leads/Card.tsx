@@ -4,10 +4,10 @@ import { memo, useCallback, useState } from 'react';
 
 import type { FC } from 'react';
 
+import { ButtonMenu } from 'src/components/shared/ButtonMenu';
 import { Skeleton } from 'src/components/shared/Skeleton';
 import { Stack } from 'src/components/shared/Stack';
 import { SVGIcon } from 'src/components/shared/SVGIcon';
-import S from 'src/styles/leads.module.scss';
 import type { APILeadProps } from 'src/types';
 
 import { TextPair } from './TextPair';
@@ -33,6 +33,7 @@ const _Card: FC<
   const [sentiment, setSentiment] = useState<typeof __sentiment>(
     __sentiment || 0
   );
+  const [contacted, setContacted] = useState(false);
 
   const onThumbsUp = useCallback(() => {
     setSentiment((prev) => (prev === 1 ? 0 : 1));
@@ -42,18 +43,24 @@ const _Card: FC<
     setSentiment((prev) => (prev === -1 ? 0 : -1));
   }, []);
 
+  const onContacted = useCallback(() => {
+    setContacted((prev) => !prev);
+  }, []);
+
   return (
     <Stack
       as="li"
-      className={`${
-        S.Card || ''
-      } relative transition m-0 rounded-2xl border border-solid overflow-clip bg-white/5 border-black/10 anim__fadeInUpTiny`}
+      className={`relative transition m-0 rounded-2xl border border-solid overflow-clip bg-white/5 border-black/10 anim__fadeInUpTiny`}
       style={{ animationDelay: `${0.1 * index}s` }}>
       <Stack className="p-3.5 pt-2 gap-1.5 sm:p-4 sm:pt-2.5">
-        <Stack horizontal centerY className="justify-between">
-          <Stack center className="w-5 h-5 rounded-md bg-black/5">
+        <Stack horizontal centerY className="justify-between debugge r">
+          <IconButton
+            className={`w-5 h-5 p-0 rounded-md ${
+              contacted ? 'bg-[#57C2EF] text-white' : 'bg-black/5'
+            }`}
+            onClick={onContacted}>
             <SVGIcon name="contact" className="h-3.5 w-3.5" />
-          </Stack>
+          </IconButton>
 
           <Stack horizontal centerY className="gap-1">
             {[
@@ -74,16 +81,38 @@ const _Card: FC<
                 disabled={!_id}>
                 <SVGIcon
                   name={`thumbs-${i === 0 ? 'up' : 'down'}`}
-                  className={`w-3.5 h-3.5 text-transparent h-3 ${
-                    className || 'fill-black/20'
-                  }`}
+                  className={`text-transparent ${className || 'fill-black/20'}`}
+                  size="0.875rem"
                 />
               </IconButton>
             ))}
 
-            <IconButton className="-mr-1.5" disabled={!_id}>
-              <SVGIcon name="ellipsis" className="w-4 h-4" />
-            </IconButton>
+            <ButtonMenu
+              popoverPosition="right"
+              iconButtonProps={{ className: '-mr-1.5 p-1', disabled: !_id }}
+              menuItemProps={{ className: 'justify-between' }}
+              options={[
+                {
+                  value: `Mark${contacted ? ' not' : ''} contacted`,
+                  icon: 'contact',
+                  action: onContacted
+                },
+                {
+                  value: 'Delete',
+                  icon: 'delete',
+                  className:
+                    'opacity-70 text-red-700 hover:opacity-100 focus:opacity-100',
+                  action: () => {
+                    // const canDelete = confirm(
+                    //   '[Simulate Modal] Are you sure you want to delete this lead?'
+                    // );
+                    // if (canDelete) {
+                    // }
+                  }
+                }
+              ]}>
+              <SVGIcon name="ellipsis" size="1.25rem" />
+            </ButtonMenu>
           </Stack>
         </Stack>
 

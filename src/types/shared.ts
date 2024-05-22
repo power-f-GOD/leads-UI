@@ -6,9 +6,22 @@ import type {
   HTMLAttributes,
   LabelHTMLAttributes,
   MutableRefObject,
+  ReactNode,
   Ref,
-  SVGAttributes
+  SVGAttributes,
+  SyntheticEvent
 } from 'react';
+
+export interface ButtonMenuOption {
+  icon?: SVGIconName;
+  emoji?: ReactNode;
+  value: string | null;
+  color?: CSSProperties['color'];
+  disabled?: boolean;
+  title?: string;
+  className?: string;
+  action?(e?: SyntheticEvent<HTMLElement>): void;
+}
 
 export interface FetchProps<
   Data,

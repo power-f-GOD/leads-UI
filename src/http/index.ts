@@ -224,7 +224,7 @@ export class Http {
               isAPIError)
               ? 'error'
               : 'info',
-          variant: 'filled',
+          variant: 'standard',
           ...(isAPIError ? { position: 'bottom' } : {})
         })
       );

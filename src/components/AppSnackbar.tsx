@@ -1,12 +1,12 @@
-import React, { useCallback, memo } from 'react';
-import { shallowEqual } from 'react-redux';
 import {
-  Snackbar as MuiSnackbar,
-  Button,
   Alert,
-  Slide,
-  AlertTitle
+  AlertTitle,
+  Button,
+  Snackbar as MuiSnackbar,
+  Slide
 } from '@mui/material';
+import { memo, useCallback } from 'react';
+import { shallowEqual } from 'react-redux';
 
 import type { SlideProps } from '@mui/material';
 
@@ -69,7 +69,7 @@ const _AppSnackbar = () => {
       <Alert
         onClose={handleOnClose}
         severity={severity}
-        variant={variant ?? 'filled'}
+        variant={variant ?? 'standard'}
         className="shadow-lg max-w-lg">
         {title && (
           <AlertTitle className="text-capitalize mb-1">
