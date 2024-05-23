@@ -5,7 +5,7 @@
 import { ThemeProvider } from '@emotion/react';
 import StylesProvider from '@mui/styles/StylesProvider';
 import { Inter } from 'next/font/google';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import type { ReactNode } from 'react';
@@ -13,6 +13,7 @@ import type { ReactNode } from 'react';
 import { AppSnackbar } from 'src/components/AppSnackbar';
 import { Stack } from 'src/components/shared/Stack';
 import { Text } from 'src/components/shared/Text';
+import { appEnv } from 'src/constants/env';
 import { store } from 'src/store/main';
 import 'src/styles/index.scss';
 import { theme } from 'src/utils/theme';
@@ -22,21 +23,21 @@ import RootStyleRegistry from './__emotion';
 const inter = Inter({ subsets: ['latin'], weight: '400' });
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  // This is to fix server-client hydration errors logged in browser console
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
-    setIsMounted(true);
+    // Fix server-client hydration errors logged in browser console
+    appEnv.isBrowser = true;
 
-    // Hack: Doing this to fix issues with class styles not applying due to element being prepended before MUI styles
-    const tailwindStylesEtAl = document.querySelector(
-      'link[data-precedence="next.js"]'
-    );
+    // // Hack: Doing this to fix issues with class styles not applying due to element being prepended before MUI styles
+    // const tailwindStylesEtAl = document.querySelector(
+    //   'link[data-precedence="next.js"]'
+    // );
 
-    if (tailwindStylesEtAl) {
-      // tailwindStylesEtAl.parentNode?.appendChild(tailwindStylesEtAl);
-    }
+    // if (tailwindStylesEtAl) {
+    //   tailwindStylesEtAl.parentNode?.appendChild(tailwindStylesEtAl);
+    // }
   }, []);
+
+  if (globalThis.window) appEnv.isBrowser__aggressive = true;
 
   return (
     <html lang="en">
@@ -52,7 +53,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </Stack>
         </Stack>
         {children}
-        {isMounted && <AppSnackbar />}
+        {appEnv.isBrowser && <AppSnackbar />}
       </body>
     </html>
   );

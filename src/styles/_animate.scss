@@ -5,6 +5,7 @@
 }
 
 @include anim__('fadeIn', '', '');
+@include anim__('fadeIn', 'Left', 'Tiny');
 @include anim__('fadeIn', 'Up', 'Tiny');
 @include anim__('fadeIn', 'Up', 'Big');
 

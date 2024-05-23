@@ -6,11 +6,15 @@ import type { FC } from 'react';
 import { Skeleton } from 'src/components/shared/Skeleton';
 import { Stack } from 'src/components/shared/Stack';
 import { SVGIcon } from 'src/components/shared/SVGIcon';
+import { appEnv } from 'src/constants';
+import { getHash } from 'src/hooks/useHash';
 import { useTypedSelector } from 'src/hooks/useTypedSelector';
 import type { APILeadProps } from 'src/types';
 
 import { Actions } from './Actions';
 import { TextPair } from './TextPair';
+
+let prevPage = -1;
 
 const _Card: FC<
   Partial<APILeadProps> & {
@@ -42,11 +46,21 @@ const _Card: FC<
   const isReadId = (_id?.length || 0) > 10;
   const disable = isLoadingAction || !isReadId;
 
+  // Just for (correctly) triggering animations (to make it more visible to the user that `Card` content changed) on pagination
+  if (prevPage < 1) prevPage = +(getHash() || page);
+  if (prevPage !== page) setTimeout(() => (prevPage = +(getHash() || page)));
+
   return (
     <Stack
       as="li"
       className={`relative transition m-0 rounded-2xl border border-solid overflow-clip border-black/10 dark:border-white/10 ${
-        isDeleted ? 'anim__onDeleteLead' : !isReadId ? 'anim__fadeInUpTiny' : ''
+        isDeleted
+          ? 'anim__onDeleteLead'
+          : !isReadId || prevPage !== page
+          ? appEnv.window.isMobile
+            ? 'anim__fadeInUpTiny'
+            : 'anim__fadeInLeftTiny'
+          : ''
       } ${disable ? 'cursor-not-allowed' : ''}`}
       style={{ animationDelay: `${0.1 * index}s` }}>
       <Stack className="p-3.5 pt-2 gap-1.5 sm:p-4 sm:pt-2.5">

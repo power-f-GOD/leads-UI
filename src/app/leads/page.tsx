@@ -9,11 +9,20 @@ import { Card } from 'src/components/leads';
 import { Spinner } from 'src/components/shared/Spinner';
 import { Stack } from 'src/components/shared/Stack';
 import { Text } from 'src/components/shared/Text';
+import { useHash } from 'src/hooks/useHash';
 import { useService } from 'src/hooks/useService';
 import { fetchLeads } from 'src/services/leads';
 
 const Leads = () => {
-  const { data, status, extra } = useService(fetchLeads, { path: 'leads' });
+  const hash = useHash((_hash) =>
+    fetchLeads({ page: +_hash! }).then(() =>
+      window.scrollTo({ top: 1, behavior: 'smooth' })
+    )
+  );
+  const { data, status, extra } = useService(fetchLeads, {
+    path: 'leads',
+    lazy: !!hash
+  });
   const { page, limit } = extra;
   const nPages = Math.ceil(data.total_results / limit);
   const pagination: Array<(ButtonProps & { requestPage: number }) | null> = [
@@ -33,7 +42,7 @@ const Leads = () => {
           return (
             <Card
               {...props}
-              key={props._id}
+              key={`${props._id}${page}`}
               index={i}
               page={page}
               loading={status !== 'fulfilled'}
@@ -57,9 +66,10 @@ const Leads = () => {
                     className="capitalize text-xs px-2 min-w-0 transition dark:text-white/90 disabled:text-current"
                     disabled={status !== 'fulfilled' || disabled}
                     onClick={() => {
-                      fetchLeads({
-                        page: Math.max(Math.min(requestPage!, nPages), 0)
-                      });
+                      location.hash = Math.max(
+                        Math.min(requestPage!, nPages),
+                        1
+                      ).toString();
                     }}>
                     {value}
                   </Button>
