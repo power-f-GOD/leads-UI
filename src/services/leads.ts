@@ -23,17 +23,7 @@ export const giveLeadThumbs = async (
   lead_id: string,
   sentiment: APILeadProps['__sentiment']
 ) => {
-  dispatch(
-    lead({
-      data: { _id: lead_id },
-      message:
-        sentiment === 1
-          ? 'Thumbing up lead...'
-          : sentiment === -1
-          ? 'Thumbing down lead...'
-          : 'Deleteing lead thumb...'
-    })
-  );
+  dispatch(lead({ data: { _id: lead_id } }));
   await http.get<APILeadsResponse>(`/leads/feedback`, {
     data: { lead_id, sentiment },
     actor: leads

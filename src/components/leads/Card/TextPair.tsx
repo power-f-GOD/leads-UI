@@ -5,8 +5,8 @@ import type { FC, ReactNode } from 'react';
 import { Stack } from 'src/components/shared/Stack';
 import type { StackProps } from 'src/types';
 
-import { Skeleton } from '../shared/Skeleton';
-import { Text } from '../shared/Text';
+import { Skeleton } from '../../shared/Skeleton';
+import { Text } from '../../shared/Text';
 
 const _TextPair: FC<
   StackProps & {

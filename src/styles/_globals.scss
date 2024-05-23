@@ -7,13 +7,6 @@ body {
   overflow: auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  html,
-  body {
-    color: white;
-  }
-}
-
 body * {
   font-family: inherit !important;
 }
@@ -22,7 +15,7 @@ body * {
   box-sizing: border-box;
 
   @media (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
   }
 }
 
@@ -42,6 +35,13 @@ h6 {
 .SVGIcon:not([class*='fill-']) {
   path:not([fill]) {
     stroke: currentColor;
+  }
+}
+
+svg[color='currentColor'] {
+  &,
+  * {
+    color: currentColor !important;
   }
 }
 

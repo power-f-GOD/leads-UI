@@ -32,6 +32,46 @@ export const returnThemeOptionsObject = (
         main: `rgba(${primary.r}, ${primary.g}, ${primary.b}, 1)`,
         dark: `rgba(${primary.r}, ${primary.g}, ${primary.b}, 0.8)`
       }
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              opacity: '0.5'
+            }
+          }
+        }
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              opacity: '0.5'
+            }
+          }
+        }
+      },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            marginLeft: '1.125rem',
+            marginTop: '-0.75rem',
+            borderRadius: '0.75rem',
+            padding: '0.5rem',
+            boxShadow: '0 0.25rem 0.75rem 0 rgba(0, 0, 0, 0.1)'
+          },
+          list: {
+            padding: '0',
+            '.MuiMenuItem-root': {
+              fontSize: '0.75rem',
+              padding: '0.25rem 0.5rem',
+              borderRadius: '0.5rem',
+              minHeight: 'unset'
+            }
+          }
+        }
+      }
     }
   };
 };

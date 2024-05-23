@@ -125,30 +125,10 @@ const _ButtonMenu: FC<{
         open={open}
         disableRestoreFocus
         onClose={handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            marginLeft: '1.125rem',
-            marginTop: '-0.75rem',
-            borderRadius: '0.75rem',
-            padding: '0.5rem',
-            boxShadow: '0 0.25rem 0.75rem 0 rgba(0, 0, 0, 0.1)'
-          }
-        }}
-        classes={{ paper: 'backdrop-blur-sm dark:bg-black/50' }}
+        classes={{ paper: 'backdrop-blur-sm bg-white/50 dark:bg-black/50' }}
         MenuListProps={useMemo(
           () => ({
-            'aria-labelledby': 'button-menu',
-            sx: {
-              '&': {
-                padding: '0'
-              },
-              '.MuiMenuItem-root': {
-                fontSize: '0.75rem',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '0.5rem',
-                minHeight: 'unset'
-              }
-            }
+            'aria-labelledby': 'button-menu'
           }),
           []
         )}
