@@ -70,7 +70,7 @@ const _AppSnackbar = () => {
         onClose={handleOnClose}
         severity={severity}
         variant={
-          window.matchMedia('(prefers-color-scheme: dark)')
+          window.matchMedia('(prefers-color-scheme: dark)').matches
             ? 'filled'
             : variant ?? 'standard'
         }
