@@ -21,10 +21,11 @@ export const useService = <
 
   useEffect(() => {
     if (!lazy) service(query);
-  }, [service, lazy, query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
-    refetch: service,
+    refetch: () => service(query),
     ...state
   };
 };

@@ -84,12 +84,8 @@ const Leads = () => {
                     className="capitalize text-xs px-2 min-w-0 transition dark:text-white/90 disabled:text-current"
                     disabled={status !== 'fulfilled' || disabled}
                     onClick={() => {
-                      if (
-                        value === '< Prev' &&
-                        +location.hash.slice(1) &&
-                        history.length > 2
-                      ) {
-                        // Prevent from (redundantly) pushing to the `history` stack.
+                      // Prevent from (redundantly) pushing to the `history` stack.
+                      if (value === '< Prev' && location.hash.slice(1)) {
                         return history.back();
                       }
 
