@@ -26,7 +26,7 @@ const Leads = () => {
       behavior: 'smooth'
     });
     clearTimeout(fetchLeadsDebounce);
-    fetchLeadsDebounce = setTimeout(() => fetchLeads({ page: +_hash! }), 500);
+    fetchLeadsDebounce = setTimeout(fetchLeads, 500, { page: +(_hash || 1) });
   });
   const { data, status, extra } = useService<LeadsActionPayload>(fetchLeads, {
     path: 'leads',
@@ -84,6 +84,15 @@ const Leads = () => {
                     className="capitalize text-xs px-2 min-w-0 transition dark:text-white/90 disabled:text-current"
                     disabled={status !== 'fulfilled' || disabled}
                     onClick={() => {
+                      if (
+                        value === '< Prev' &&
+                        +location.hash.slice(1) &&
+                        history.length > 2
+                      ) {
+                        // Prevent from (redundantly) pushing to the `history` stack.
+                        return history.back();
+                      }
+
                       location.hash = Math.max(
                         Math.min(requestPage!, nPages),
                         1

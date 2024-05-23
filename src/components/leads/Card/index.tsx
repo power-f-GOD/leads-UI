@@ -47,7 +47,7 @@ const _Card: FC<
   const disable = isLoadingAction || !isReadId;
 
   // Just for (correctly) triggering animations (to make it more visible to the user that `Card` content changed) on pagination
-  if (prevPage < 1) prevPage = +(getHash() || page);
+  if (prevPage < 1) prevPage = +(getHash() || -1);
   if (prevPage !== page) setTimeout(() => (prevPage = +(getHash() || page)));
 
   return (
