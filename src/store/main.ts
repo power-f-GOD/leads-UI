@@ -1,7 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
-
-import type { TypedUseSelectorHook } from 'react-redux';
 
 import { IS_DEV_MODE } from 'src/constants';
 
@@ -20,7 +17,5 @@ export const { getState } = store;
 export type StateProps = ReturnType<typeof getState>;
 export type StoreDispatch = ReturnType<typeof dispatch>;
 export type StoreGetState = typeof getState;
-
-export const useTypedSelector: TypedUseSelectorHook<StateProps> = useSelector;
 
 export { store };

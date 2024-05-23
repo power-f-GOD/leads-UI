@@ -11,15 +11,7 @@ import type {
 export const fetchLeads = async (query?: { page: number }) => {
   const { error } = await http.get<APILeadsResponse>(
     `/leads${query?.page ? `?page=${query.page}` : ''}`,
-    {
-      actor: leads,
-      middleware(payload) {
-        payload.extra.__isLastPage =
-          payload.data.leads.length < payload.extra.__count!;
-
-        return payload;
-      }
-    }
+    { actor: leads }
   );
 
   if (!error && query?.page) dispatch(leads({ extra: { page: query.page } }));
@@ -30,7 +22,7 @@ export const giveLeadSentiment = async (
   sentiment: APILeadSentimentType
 ) => {
   const isNeutral = sentiment === 0;
-  const payload = await http[isNeutral ? 'delete' : 'put']<APILeadsResponse>(
+  const { error } = await http[isNeutral ? 'delete' : 'put']<APILeadsResponse>(
     `/leads/feedback${isNeutral ? '' : `/${lead_id}`}`,
     {
       data: isNeutral ? undefined : { lead_id, sentiment },
@@ -42,9 +34,9 @@ export const giveLeadSentiment = async (
     }
   );
 
-  if (!payload.error) getLeadSentiments();
+  if (!error) getLeadSentiments();
 
-  return payload;
+  return { error };
 };
 
 export const getLeadSentiments = async () => {
@@ -61,11 +53,13 @@ export const getLeadSentiments = async () => {
 };
 
 export const deleteLead = async (_id: string, page: number) => {
-  dispatch(lead({ data: { _id }, message: 'Deleting lead...' }));
-
   const { error } = await http.delete<APILeadsResponse>(`/leads/${_id}`, {
     actor: lead,
-    successMessage: 'Lead deleted successfully.✅'
+    successMessage: 'Lead deleted successfully.✅',
+    initActorPayload: {
+      data: { _id },
+      message: 'Deleting lead...'
+    } as LeadActionPayload
   });
 
   if (!error) setTimeout(fetchLeads, 500, { page });

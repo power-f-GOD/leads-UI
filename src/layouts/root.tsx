@@ -65,9 +65,7 @@ const RootLayout = (props: { children: ReactNode }) => {
       <ThemeProvider theme={theme}>
         <StylesProvider injectFirst>
           <RootStyleRegistry>
-            <ReduxProvider store={store}>
-              <Layout {...props} />
-            </ReduxProvider>
+            <Layout {...props} />
           </RootStyleRegistry>
         </StylesProvider>
       </ThemeProvider>

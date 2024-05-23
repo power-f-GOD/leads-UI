@@ -10,7 +10,8 @@ import { shallowEqual } from 'react-redux';
 
 import type { SlideProps } from '@mui/material';
 
-import { dispatch, snackbar, useTypedSelector } from 'src/store';
+import { useTypedSelector } from 'src/hooks/useTypedSelector';
+import { dispatch, snackbar } from 'src/store';
 
 const _AppSnackbar = () => {
   const {

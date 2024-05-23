@@ -11,6 +11,7 @@ import type {
   HttpNormalizedResponse,
   HttpStatusProps
 } from 'src/types/shared';
+import { log } from 'src/utils';
 
 export class Http {
   static token?: string | null = process.env.API_KEY || null;
@@ -230,7 +231,7 @@ export class Http {
     }
 
     if (IS_DEV_MODE) {
-      console.log(
+      log(
         `[${action?.name || 'unknown'}] An error occured: `,
         error?.message || error
       );
