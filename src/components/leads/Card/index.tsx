@@ -53,9 +53,9 @@ const _Card: FC<
   return (
     <Stack
       as="li"
-      className={`relative transition m-0 rounded-2xl border border-solid overflow-clip border-black/10 dark:border-white/10 ${
+      className={`relative transition m-0 rounded-2xl border border-solid overflow-clip border-black/10 bg-white dark:bg-black/5 dark:border-white/10 ${
         isDeleted
-          ? 'anim__onDeleteLead'
+          ? 'anim__onDeleteLead z-30'
           : !isReadId || prevPage !== page
           ? appEnv.window.isMobile
             ? 'anim__fadeInUpTiny'

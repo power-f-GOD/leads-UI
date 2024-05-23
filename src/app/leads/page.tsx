@@ -11,18 +11,28 @@ import { Stack } from 'src/components/shared/Stack';
 import { Text } from 'src/components/shared/Text';
 import { useHash } from 'src/hooks/useHash';
 import { useService } from 'src/hooks/useService';
-import { fetchLeads } from 'src/services/leads';
+import { fetchLeads, getLeadSentiments } from 'src/services/leads';
+import type {
+  LeadsActionPayload,
+  LeadSentimentsActionPayload
+} from 'src/types';
 
 const Leads = () => {
-  const hash = useHash((_hash) =>
-    fetchLeads({ page: +_hash! }).then(() =>
-      window.scrollTo({ top: 1, behavior: 'smooth' })
-    )
-  );
-  const { data, status, extra } = useService(fetchLeads, {
+  const hash = useHash((_hash) => {
+    setTimeout(window.scrollTo, 0, {
+      top: 0,
+      behavior: 'smooth'
+    });
+    fetchLeads({ page: +_hash! });
+  });
+  const { data, status, extra } = useService<LeadsActionPayload>(fetchLeads, {
     path: 'leads',
     lazy: !!hash
   });
+  const sentiments = useService<LeadSentimentsActionPayload>(
+    getLeadSentiments,
+    { path: 'leadSentiments' }
+  );
   const { page, limit } = extra;
   const nPages = Math.ceil(data.total_results / limit);
   const pagination: Array<(ButtonProps & { requestPage: number }) | null> = [
@@ -46,6 +56,7 @@ const Leads = () => {
               index={i}
               page={page}
               loading={status !== 'fulfilled'}
+              __sentiment={sentiments.data[props._id]}
             />
           );
         })}

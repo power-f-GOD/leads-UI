@@ -7,31 +7,43 @@ import { ButtonMenu } from 'src/components/shared/ButtonMenu';
 import { Spinner } from 'src/components/shared/Spinner';
 import { Stack } from 'src/components/shared/Stack';
 import { SVGIcon } from 'src/components/shared/SVGIcon';
-import { deleteLead } from 'src/services/leads';
-import type { HttpStatusProps } from 'src/types';
+import { deleteLead, giveLeadSentiment } from 'src/services/leads';
+import type { APILeadSentimentProps, HttpStatusProps } from 'src/types';
 
 const _Actions: FC<
   {
     _id: string | undefined;
-    sentiment: number | undefined;
+    sentiment: APILeadSentimentProps | undefined;
     page: number;
     setIsDeleted: Dispatch<SetStateAction<boolean>>;
   } & HttpStatusProps
 > = ({ _id, page, sentiment: _sentiment, status, message, setIsDeleted }) => {
-  const [sentiment, setSentiment] = useState(_sentiment || 0);
+  const [sentiment, setSentiment] = useState(_sentiment?.sentiment || 0);
   const [contacted, setContacted] = useState(false);
   const isLoadingAction = status === 'pending';
   const isDeleting = message?.includes('Deleting');
   const isReadId = (_id?.length || 0) > 10;
   const disable = isLoadingAction || !isReadId;
 
+  const onThumbs = useCallback(
+    (action: 'up' | 'down') => {
+      const next =
+        action === 'up' ? (sentiment === 1 ? 0 : 1) : sentiment === -1 ? 0 : -1;
+
+      giveLeadSentiment(_id!, next).then(({ error }) => {
+        if (!error) setSentiment(next);
+      });
+    },
+    [_id, sentiment]
+  );
+
   const onThumbsUp = useCallback(() => {
-    setSentiment((prev) => (prev === 1 ? 0 : 1));
-  }, []);
+    onThumbs('up');
+  }, [onThumbs]);
 
   const onThumbsDown = useCallback(() => {
-    setSentiment((prev) => (prev === -1 ? 0 : -1));
-  }, []);
+    onThumbs('down');
+  }, [onThumbs]);
 
   const onContacted = useCallback(() => {
     setContacted((prev) => !prev);

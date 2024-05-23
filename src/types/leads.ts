@@ -9,6 +9,15 @@ export type LeadActionPayload = FetchProps<
   (Partial<Omit<APILeadProps, '_id'>> & { _id: string }) | null
 >;
 
+export type LeadSentimentsActionPayload = FetchProps<
+  Record<string, APILeadSentimentProps>
+>;
+
+export interface APILeadSentimentProps {
+  _id: string;
+  sentiment: APILeadSentimentType;
+}
+
 export type APILeadsResponse = {
   total_results: number;
   leads: APILeadProps[];
@@ -70,10 +79,8 @@ export interface APILeadProps {
   highlights: string;
   last_updated: string;
   /** Augmentation - Not part of actual API response */
-  __sentiment?: THUMBS_DOWN | NEUTRAL | THUMBS_UP;
+  __sentiment?: APILeadSentimentProps;
   __contacted?: boolean;
 }
 
-type THUMBS_DOWN = -1;
-type THUMBS_UP = 1;
-type NEUTRAL = 0;
+export type APILeadSentimentType = -1 | 1 | 0;

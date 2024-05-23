@@ -53,7 +53,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </Stack>
         </Stack>
         {children}
-        {appEnv.isBrowser && <AppSnackbar />}
+        {appEnv.isBrowser__aggressive && <AppSnackbar />}
       </body>
     </html>
   );

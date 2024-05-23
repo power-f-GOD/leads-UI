@@ -96,6 +96,7 @@ export class Http {
       count,
       successMessage,
       preventPayloadDispatch,
+      initActorPayload,
       middleware,
       dataMiddleware,
       actor,
@@ -104,7 +105,9 @@ export class Http {
     let payload: Partial<FetchProps<ResData>> | null = null;
 
     try {
-      if (actor) dispatch(actor({ status: 'pending', err: false }));
+      if (actor) {
+        dispatch(actor({ ...initActorPayload, status: 'pending', err: false }));
+      }
 
       const res: AxiosResponse<ResData> = await axios(
         this.returnRequestConfig(
@@ -290,6 +293,7 @@ export interface HttpMethodOptions<
   data?: ReqData;
   /** Useful if you want to handle resultant payload (dispatch) yourself (probably with some helper/util) without it being done automatically. */
   preventPayloadDispatch?: boolean;
+  initActorPayload?: Partial<FetchProps<unknown>>;
   actor?: ActionCreator;
   middleware?: (data: FetchProps<ResData>) => FetchProps<ResData>;
   dataMiddleware?: (data: ResData) => ResData;

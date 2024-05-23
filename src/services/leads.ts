@@ -1,6 +1,12 @@
 import { http } from 'src/http';
-import { dispatch, lead, leads } from 'src/store';
-import type { APILeadProps, APILeadsResponse } from 'src/types';
+import { dispatch, lead, leads, leadSentiments } from 'src/store';
+import type {
+  APILeadSentimentProps,
+  APILeadSentimentType,
+  APILeadsResponse,
+  LeadActionPayload,
+  LeadSentimentsActionPayload
+} from 'src/types';
 
 export const fetchLeads = async (query?: { page: number }) => {
   const { error } = await http.get<APILeadsResponse>(
@@ -19,15 +25,35 @@ export const fetchLeads = async (query?: { page: number }) => {
   if (!error && query?.page) dispatch(leads({ extra: { page: query.page } }));
 };
 
-export const giveLeadThumbs = async (
+export const giveLeadSentiment = async (
   lead_id: string,
-  sentiment: APILeadProps['__sentiment']
+  sentiment: APILeadSentimentType
 ) => {
-  dispatch(lead({ data: { _id: lead_id } }));
-  await http.get<APILeadsResponse>(`/leads/feedback`, {
+  const payload = await http.put<APILeadsResponse>(`/leads/feedback`, {
     data: { lead_id, sentiment },
-    actor: leads
+    actor: lead,
+    initActorPayload: {
+      data: { _id: lead_id },
+      message: 'Thumbing...'
+    } as LeadActionPayload
   });
+
+  if (!payload.error) getLeadSentiments();
+
+  return payload;
+};
+
+export const getLeadSentiments = async () => {
+  return (await http.get<APILeadSentimentProps[]>(`/leads/feedback`, {
+    actor: leadSentiments,
+    dataMiddleware: (data) => {
+      return data.reduce((a, b) => {
+        a[b._id] = b;
+
+        return a;
+      }, {} as LeadSentimentsActionPayload['data']) as any;
+    }
+  })) as unknown as LeadSentimentsActionPayload;
 };
 
 export const deleteLead = async (_id: string, page: number) => {

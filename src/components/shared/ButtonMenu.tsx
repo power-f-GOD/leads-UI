@@ -125,7 +125,7 @@ const _ButtonMenu: FC<{
         open={open}
         disableRestoreFocus
         onClose={handleClose}
-        classes={{ paper: 'backdrop-blur-sm bg-white/50 dark:bg-black/50' }}
+        classes={{ paper: 'backdrop-blur-sm bg-white/70 dark:bg-black/50' }}
         MenuListProps={useMemo(
           () => ({
             'aria-labelledby': 'button-menu'

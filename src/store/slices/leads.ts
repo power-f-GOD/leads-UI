@@ -2,27 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { httpStatusPropsInit } from 'src/constants';
-import type { LeadActionPayload, LeadsActionPayload } from 'src/types';
+import type {
+  LeadActionPayload,
+  LeadsActionPayload,
+  LeadSentimentsActionPayload
+} from 'src/types';
 
 import { resolveState } from '../__utils';
-
-const initialLeadsState: LeadsActionPayload = {
-  ...httpStatusPropsInit,
-  data: {
-    leads: Array(9)
-      .fill({})
-      .map((d, i) => ({ ...d, _id: `${i}` })),
-    total_results: 0
-  },
-  extra: { limit: 9, page: 1 }
-};
-
-const initialLeadState: LeadActionPayload = {
-  ...httpStatusPropsInit,
-  data: null,
-  extra: {}
-};
+import {
+  initialLeadSentimentsState,
+  initialLeadsState,
+  initialLeadState
+} from '../inits/leads';
 
 export const leadsSlice = createSlice({
   initialState: initialLeadsState,
@@ -50,12 +41,25 @@ export const leadSlice = createSlice({
   }
 });
 
-export const { leads, lead } = {
+export const leadSentimentsSlice = createSlice({
+  initialState: initialLeadSentimentsState,
+  name: 'leadSentiments',
+  reducers: {
+    leadSentiments: (
+      state,
+      action: PayloadAction<Partial<LeadSentimentsActionPayload>>
+    ) => resolveState(state, initialLeadSentimentsState, action)
+  }
+});
+
+export const { leads, lead, leadSentiments } = {
   ...leadsSlice.actions,
-  ...leadSlice.actions
+  ...leadSlice.actions,
+  ...leadSentimentsSlice.actions
 };
 
 export const leadsReducers = {
   leads: leadsSlice.reducer,
-  lead: leadSlice.reducer
+  lead: leadSlice.reducer,
+  leadSentiments: leadSentimentsSlice.reducer
 };
