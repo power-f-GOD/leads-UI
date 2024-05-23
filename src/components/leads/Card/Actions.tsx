@@ -2,13 +2,13 @@ import { IconButton } from '@mui/material';
 import { memo, useCallback, useState } from 'react';
 
 import type { Dispatch, FC, SetStateAction } from 'react';
+import type { APILeadSentimentProps, HttpStatusProps } from 'src/types';
 
 import { ButtonMenu } from 'src/components/shared/ButtonMenu';
 import { Spinner } from 'src/components/shared/Spinner';
 import { Stack } from 'src/components/shared/Stack';
 import { SVGIcon } from 'src/components/shared/SVGIcon';
 import { deleteLead, giveLeadSentiment } from 'src/services/leads';
-import type { APILeadSentimentProps, HttpStatusProps } from 'src/types';
 
 const _Actions: FC<
   {

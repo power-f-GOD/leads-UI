@@ -1,7 +1,6 @@
 import { memo, useMemo } from 'react';
 
 import type { FC } from 'react';
-
 import type { SkeletonProps } from 'src/types';
 
 import { Stack } from './Stack';

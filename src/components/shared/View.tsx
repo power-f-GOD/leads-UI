@@ -1,7 +1,6 @@
 import { memo, createElement, forwardRef } from 'react';
 
 import type { ForwardRefExoticComponent } from 'react';
-
 import type { ViewProps } from 'src/types';
 
 const _View: ForwardRefExoticComponent<ViewProps> = forwardRef(

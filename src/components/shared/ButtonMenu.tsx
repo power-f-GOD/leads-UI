@@ -11,7 +11,6 @@ import type {
   MenuProps
 } from '@mui/material';
 import type { FC, Key, MouseEvent, ReactNode } from 'react';
-
 import type { ButtonMenuOption } from 'src/types/shared';
 
 import { SVGIcon } from './SVGIcon';

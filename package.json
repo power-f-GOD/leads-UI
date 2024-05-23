@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "pnpm build && next start",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
-    "lint": "npx eslint . --ext js,jsx,ts,tsx --ignore-path .eslintignore --no-debug > eslint-debug.log --fix && turbo lint",
+    "lint": "npx eslint . --ext js,jsx,ts,tsx --ignore-path .eslintignore --no-debug > eslint-debug.log --fix && next lint",
     "format": "npx prettier . --ignore-path .eslintignore --write '(**/*.{tsx,ts,js}|*.{js,cjs})'",
     "test": "jest",
     "test:w": "jest --updateSnapshot && jest --watch",

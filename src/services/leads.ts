@@ -1,5 +1,3 @@
-import { http } from 'src/http';
-import { dispatch, lead, leads, leadSentiments } from 'src/store';
 import type {
   APILeadSentimentProps,
   APILeadSentimentType,
@@ -7,6 +5,9 @@ import type {
   LeadActionPayload,
   LeadSentimentsActionPayload
 } from 'src/types';
+
+import { http } from 'src/http';
+import { dispatch, lead, leads, leadSentiments } from 'src/store';
 
 export const fetchLeads = async (query?: { page: number }) => {
   const { error } = await http.get<APILeadsResponse>(

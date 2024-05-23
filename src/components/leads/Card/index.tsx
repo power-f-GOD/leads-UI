@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { memo, useState } from 'react';
 
 import type { FC } from 'react';
+import type { APILeadProps } from 'src/types';
 
 import { Skeleton } from 'src/components/shared/Skeleton';
 import { Stack } from 'src/components/shared/Stack';
@@ -9,7 +10,6 @@ import { SVGIcon } from 'src/components/shared/SVGIcon';
 import { appEnv } from 'src/constants';
 import { getHash } from 'src/hooks/useHash';
 import { useTypedSelector } from 'src/hooks/useTypedSelector';
-import type { APILeadProps } from 'src/types';
 
 import { Actions } from './Actions';
 import { TextPair } from './TextPair';

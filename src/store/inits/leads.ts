@@ -1,9 +1,10 @@
-import { httpStatusPropsInit } from 'src/constants';
 import type {
   LeadActionPayload,
   LeadsActionPayload,
   LeadSentimentsActionPayload
 } from 'src/types';
+
+import { httpStatusPropsInit } from 'src/constants';
 
 export const initialLeadsState: LeadsActionPayload = {
   ...httpStatusPropsInit,

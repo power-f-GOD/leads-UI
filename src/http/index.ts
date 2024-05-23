@@ -1,16 +1,16 @@
 import axios from 'axios';
 
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-import { API_BASE_URL, IS_DEV_MODE } from 'src/constants';
-import { dispatch } from 'src/store/main';
-import { snackbar } from 'src/store/slices/misc';
 import type {
   Action,
   FetchProps,
   HttpNormalizedResponse,
   HttpStatusProps
 } from 'src/types/shared';
+
+import { API_BASE_URL, IS_DEV_MODE } from 'src/constants';
+import { dispatch } from 'src/store/main';
+import { snackbar } from 'src/store/slices/misc';
 import { log } from 'src/utils';
 
 export class Http {

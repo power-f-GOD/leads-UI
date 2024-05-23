@@ -66,17 +66,12 @@ module.exports = {
         'newlines-between': 'always',
         pathGroups: [
           {
-            pattern: '+(!{src/**,@ui/**,ui,.,./**,../**})',
+            pattern: '+(!{src/**,.,./**,../**})',
             group: 'external',
             position: 'before'
           },
           {
-            pattern: '{@ui/*(!(types)),@ui/*(!(types))/**/*}',
-            group: 'type',
-            position: 'after'
-          },
-          {
-            pattern: 'src/**',
+            pattern: '{src/*(!(types)),src/*(!(types))/**/*}',
             group: 'type',
             position: 'after'
           }

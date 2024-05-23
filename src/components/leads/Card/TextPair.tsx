@@ -1,12 +1,11 @@
 import { memo } from 'react';
 
 import type { FC, ReactNode } from 'react';
-
-import { Stack } from 'src/components/shared/Stack';
 import type { StackProps } from 'src/types';
 
-import { Skeleton } from '../../shared/Skeleton';
-import { Text } from '../../shared/Text';
+import { Skeleton } from 'src/components/shared/Skeleton';
+import { Stack } from 'src/components/shared/Stack';
+import { Text } from 'src/components/shared/Text';
 
 const _TextPair: FC<
   StackProps & {

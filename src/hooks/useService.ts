@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
-import type { StateProps } from 'src/store';
 import type { FetchProps } from 'src/types';
+
+import type { StateProps } from 'src/store';
 
 import { useTypedSelector } from './useTypedSelector';
 

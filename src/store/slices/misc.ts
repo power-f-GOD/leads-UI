@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-
 import type { SnackbarProps } from 'src/types';
 
 export const snackbarSlice = createSlice({

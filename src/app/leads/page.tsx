@@ -4,6 +4,10 @@ import { Button } from '@mui/material';
 import { Fragment } from 'react';
 
 import type { ButtonProps } from '@mui/material';
+import type {
+  LeadsActionPayload,
+  LeadSentimentsActionPayload
+} from 'src/types';
 
 import { Card } from 'src/components/leads';
 import { Spinner } from 'src/components/shared/Spinner';
@@ -12,10 +16,6 @@ import { Text } from 'src/components/shared/Text';
 import { useHash } from 'src/hooks/useHash';
 import { useService } from 'src/hooks/useService';
 import { fetchLeads, getLeadSentiments } from 'src/services/leads';
-import type {
-  LeadsActionPayload,
-  LeadSentimentsActionPayload
-} from 'src/types';
 
 let fetchLeadsDebounce: NodeJS.Timeout;
 
