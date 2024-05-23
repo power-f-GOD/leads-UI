@@ -17,13 +17,16 @@ import type {
   LeadSentimentsActionPayload
 } from 'src/types';
 
+let fetchLeadsDebounce: NodeJS.Timeout;
+
 const Leads = () => {
   const hash = useHash((_hash) => {
     setTimeout(window.scrollTo, 0, {
       top: 0,
       behavior: 'smooth'
     });
-    fetchLeads({ page: +_hash! });
+    clearTimeout(fetchLeadsDebounce);
+    fetchLeadsDebounce = setTimeout(() => fetchLeads({ page: +_hash! }), 500);
   });
   const { data, status, extra } = useService<LeadsActionPayload>(fetchLeads, {
     path: 'leads',
@@ -37,9 +40,13 @@ const Leads = () => {
   const nPages = Math.ceil(data.total_results / limit);
   const pagination: Array<(ButtonProps & { requestPage: number }) | null> = [
     { value: 'First', requestPage: 1 },
-    { value: '< Prev', requestPage: page - 1, disabled: page <= 1 },
+    { value: '< Prev', requestPage: +(hash || page) - 1, disabled: page <= 1 },
     null,
-    { value: 'Next >', requestPage: page + 1, disabled: page >= nPages },
+    {
+      value: 'Next >',
+      requestPage: +(hash || page) + 1,
+      disabled: page >= nPages
+    },
     { value: 'Last', requestPage: nPages, disabled: page >= nPages }
   ];
 
