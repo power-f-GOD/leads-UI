@@ -7,10 +7,10 @@ UI for Leads (API) built with [Next.js 14](https://nextjs.org/).
 1. Clone the repository and navigate into it:
 
 ```zsh
-git clone https://github.com/power-f-GOD/leads-UI.git && cd lead-ui
+git clone https://github.com/power-f-GOD/leads-UI.git && cd leads-ui
 ```
 
-2. Install dependencies:
+2. Install dependencies (Repo uses `pnpm` as package manager):
 
 ```zsh
 npm i -g pnpm && pnpm i
