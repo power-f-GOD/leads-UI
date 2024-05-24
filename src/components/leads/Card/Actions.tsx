@@ -30,8 +30,9 @@ const _Actions: FC<
       const next =
         action === 'up' ? (sentiment === 1 ? 0 : 1) : sentiment === -1 ? 0 : -1;
 
+      setSentiment(next);
       giveLeadSentiment(_id!, next).then(({ error }) => {
-        if (!error) setSentiment(next);
+        setTimeout(setSentiment, 1000, error ? 0 : next);
       });
     },
     [_id, sentiment]
