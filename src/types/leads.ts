@@ -16,6 +16,7 @@ export type LeadSentimentsActionPayload = FetchProps<
 export interface APILeadSentimentProps {
   _id: string;
   sentiment: APILeadSentimentType;
+  lead_id: string;
 }
 
 export type APILeadsResponse = {

@@ -22,11 +22,9 @@ export const giveLeadSentiment = async (
   lead_id: string,
   sentiment: APILeadSentimentType
 ) => {
-  const isNeutral = sentiment === 0;
-  const { error } = await http[isNeutral ? 'delete' : 'put']<APILeadsResponse>(
-    `/leads/feedback${isNeutral ? '' : `/${lead_id}`}`,
+  const { error } = await http.put<APILeadsResponse>(
+    `/leads/feedback?lead_id=${lead_id}&sentiment=${sentiment}`,
     {
-      data: isNeutral ? undefined : { lead_id, sentiment },
       actor: lead,
       initActorPayload: {
         data: { _id: lead_id },
@@ -45,7 +43,7 @@ export const getLeadSentiments = async () => {
     actor: leadSentiments,
     dataMiddleware: (data) => {
       return data.reduce((a, b) => {
-        a[b._id] = b;
+        a[b.lead_id] = b;
 
         return a;
       }, {} as LeadSentimentsActionPayload['data']) as any;
